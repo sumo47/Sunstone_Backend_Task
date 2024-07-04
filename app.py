@@ -13,6 +13,20 @@ class student(db.Model):
     department = db.Column(db.String(20), nullable=False)
 
 
+class library(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(20), nullable=False)
+    description = db.Column(db.String(200), nullable=False)
+    author = db.Column(db.String(20), nullable=False)
+
+
+class bank(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(20), nullable=False)
+    description = db.Column(db.String(20), nullable=False)
+    author = db.Column(db.String(20), nullable=False)
+
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
@@ -52,6 +66,7 @@ def update():
 
         return render_template('update.html', student=data)
 
+
 @app.route('/delete')
 def delete():
     roll_No = request.args.get('sno')
@@ -60,5 +75,57 @@ def delete():
     db.session.commit()
     return redirect('/')
 
+# Library-------------------------------------------------------------------------------------
 
-# app.run(debug=True)
+
+@app.route('/library', methods=['GET', 'POST'])
+def LibraryHome():
+    if request.method == 'POST':
+        title = request.form.get('title')
+        author = request.form.get('author')
+        description = request.form.get('description')
+
+        newBook = library(title=title, author=author, description=description)
+        db.session.add(newBook)
+        db.session.commit()
+
+        return redirect('/library')
+    else:
+        books = library.query.all()
+        return render_template('/library.html', books=books)
+
+
+@app.route('/library/update', methods=['GET', 'POST'])
+def LibraryUpdate():
+    book_id = request.args.get('book_id')
+    bookData = library.query.filter_by(id=book_id).first()
+
+    if request.method == 'POST':
+
+        title = request.form.get('title')
+        description = request.form.get('description')
+        author = request.form.get('author')
+
+        bookData.title = title
+        bookData.description = description
+        bookData.author = author
+
+        db.session.add(bookData)
+        db.session.commit()
+
+        return redirect('/library')
+    else:
+
+        return render_template('libraryUpdate.html', book=bookData)
+
+
+@app.route('/library/delete')
+def bookDelete():
+    book_id = request.args.get('book_id')
+    data = library.query.filter_by(id=book_id).first()
+    db.session.delete(data)
+    db.session.commit()
+    return redirect('/library')
+
+
+app.run(debug=True)

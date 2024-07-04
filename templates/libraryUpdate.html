@@ -1,0 +1,33 @@
+{% extends 'parent.html' %}
+
+{% block title %}
+
+<title>Update</title>
+
+{% endblock title %}
+
+{% block main %}
+
+<h2 class="text-center">Update book</h2>
+<div class="container">
+    <form action="/library/update?book_id={{book.id}}" method="post">
+        <div class="mb-3">
+            <label for="title" class="form-label">title</label>
+            <input type="Text" class="form-control" id="title" name="title" value="{{book.title}}">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">description</label><br>
+            <textarea name="description" class="form-control" id="description">{{book.description}}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="author" class="form-label">author</label><br>
+            <textarea name="author" class="form-control" id="author">{{book.author}}</textarea>
+        </div>
+        <!-- <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div> -->
+        <button type="submit" class="btn btn-success btn-lg">update</button>
+    </form>
+</div>
+{% endblock main %}

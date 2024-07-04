@@ -54,8 +54,9 @@
                     <th scope="row">{{book.id}}</th>
                     <td>{{book.title}}</td>
                     <td>{{book.description}}</td>
-                    <td><a href="/update?sno={{book.id}}" class="btn btn-secondary">Update</a> </td>
-                    <td><a href="/delete?sno={{book.id}}" class="btn btn-danger">Delete</a></td>
+                    <td>{{book.author}}</td>
+                    <td><a href="/library/update?book_id={{book.id}}" class="btn btn-secondary">Update</a> </td>
+                    <td><a href="/library/delete?book_id={{book.id}}" class="btn btn-danger">Delete</a></td>
                 </tr>
 
                 {% endfor %}
