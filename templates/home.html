@@ -1,0 +1,63 @@
+
+{% extends 'parent.html' %}
+
+{% block title %}
+<title>Home</title>
+{% endblock title %}
+
+{% block main %}
+
+<!-- This will contain the Main part of the html page-->
+<main>
+    <h2 class="text-center">Add Student</h2>
+    <div class="container">
+        <form action="/" method="post">
+            <div class="mb-3">
+                <label for="Name" class="form-label">Name</label>
+                <input type="Text" class="form-control" id="Name" name="Name">
+            </div>
+            <div class="mb-3">
+                <label for="Department" class="form-label">Department</label><br>
+                <textarea name="Department" class="form-control" placeholder="Leave a comment here"
+                    id="Department"></textarea>
+            </div>
+            <!-- <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> -->
+            <button type="submit" class="btn btn-success btn-lg">Add</button>
+        </form>
+    </div>
+    <u>
+        <h2 class="text-center">All Students</h2>
+    </u>
+    <div class="container List my-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Roll_no</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Department</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for student in students %}
+                <tr>
+                    <th scope="row">{{student.roll_No}}</th>
+                    <td>{{student.name}}</td>
+                    <td>{{student.department}}</td>
+                    <td><a href="/update?sno={{student.roll_No}}" class="btn btn-secondary">Update</a> </td>
+                    <td><a href="/delete?sno={{student.roll_No}}" class="btn btn-danger">Delete</a></td>
+                </tr>
+
+                {% endfor %}
+
+
+            </tbody>
+        </table>
+    </div>
+
+</main>
+{% endblock main %}

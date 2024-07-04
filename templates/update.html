@@ -1,0 +1,29 @@
+{% extends 'parent.html' %}
+
+{% block title %}
+
+<title>Update</title>
+
+{% endblock title %}
+
+{% block main %}
+
+<h2 class="text-center">Update Student</h2>
+<div class="container">
+    <form action="/update?sno={{student.roll_No}}" method="post">
+        <div class="mb-3">
+            <label for="Name" class="form-label">Name</label>
+            <input type="Text" class="form-control" id="Name" name="Name" value="{{student.name}}">
+        </div>
+        <div class="mb-3">
+            <label for="Department" class="form-label">Department</label><br>
+            <textarea name="Department" class="form-control" id="Department">{{student.department}}</textarea>
+        </div>
+        <!-- <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div> -->
+        <button type="submit" class="btn btn-success btn-lg">update</button>
+    </form>
+</div>
+{% endblock main %}
