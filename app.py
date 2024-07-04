@@ -22,9 +22,10 @@ class library(db.Model):
 
 class bank(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(20), nullable=False)
-    description = db.Column(db.String(20), nullable=False)
-    author = db.Column(db.String(20), nullable=False)
+    account_no = db.Column(db.Integer, nullable=False)
+    ifsc = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(20), nullable=False)
+    bank_Name = db.Column(db.String(20), nullable=False)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -127,5 +128,61 @@ def bookDelete():
     db.session.commit()
     return redirect('/library')
 
+
+# Bank-------------------------------------------------------------------------------------
+
+@app.route('/bank', methods=['GET', 'POST'])
+def bankHome():
+    if request.method == 'POST':
+        account_no = request.form.get('account_no')
+        ifsc = request.form.get('ifsc')
+        name = request.form.get('name')
+        bank_Name = request.form.get('bank_Name')
+
+        newAcount = bank(name=name, ifsc=ifsc,
+                            account_no=account_no, bank_Name=bank_Name)
+        db.session.add(newAcount)
+        db.session.commit()
+
+        return redirect('/bank')
+
+    else:
+        listOfAccount = bank.query.all()
+        return render_template('bank.html', accounts=listOfAccount)
+
+@app.route('/bank/update', methods = ['GET', 'POST'])
+
+def bankUpdate():
+    account_id = request.args.get('id')
+    print(account_id)
+    accountData = bank.query.filter_by(id=account_id).first()
+    print(accountData)
+    
+    if request.method == 'POST':
+        account_no = request.form.get('account_no')
+        ifsc = request.form.get('ifsc')
+        name = request.form.get('name')
+        bank_Name = request.form.get('bank_Name')
+        
+        accountData.account_no = account_no
+        accountData.ifsc = ifsc
+        accountData.name = name
+        accountData.bank_Name = bank_Name
+        
+        db.session.add(accountData)
+        db.session.commit()
+        
+        return redirect('/bank')
+    else:
+        return render_template('bankUpdate.html', account=accountData)
+    
+
+@app.route('/bank/delete')
+def accountDelete():
+    account_id = request.args.get('id')
+    data = bank.query.filter_by(id=account_id).first()
+    db.session.delete(data)
+    db.session.commit()
+    return redirect('/bank')
 
 app.run(debug=True)

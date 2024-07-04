@@ -1,0 +1,74 @@
+
+{% extends 'parent.html' %}
+
+{% block title %}
+<title>Home</title>
+{% endblock title %}
+
+{% block main %}
+
+<!-- This will contain the Main part of the html page-->
+<main>
+    <h2 class="text-center">Add Account</h2>
+    <div class="container">
+        <form action="/bank" method="post">
+            <div class="mb-3">
+                <label for="account_no" class="form-label">account_no</label>
+                <input type="Text" class="form-control" id="account_no" name="account_no">
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">name</label>
+                <input type="Text" class="form-control" id="name" name="name">
+            </div>
+            <div class="mb-3">
+                <label for="ifsc" class="form-label">ifsc</label><br>
+                <textarea name="ifsc" class="form-control" placeholder="Leave a comment here"
+                    id="ifsc"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="bank_Name" class="form-label">bank_Name</label><br>
+                <textarea name="bank_Name" class="form-control" placeholder="Leave a comment here"
+                    id="bank_Name"></textarea>
+            </div>
+            <!-- <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> -->
+            <button type="submit" class="btn btn-success btn-lg">Add</button>
+        </form>
+    </div>
+    <u>
+        <h2 class="text-center">All Account list</h2>
+    </u>
+    <div class="container List my-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">account_no</th>
+                    <th scope="col">name</th>
+                    <th scope="col">ifsc</th>
+                    <th scope="col">bank_Name</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for account in accounts %}
+                <tr>
+                    <th scope="row">{{account.id}}</th>
+                    <td>{{account.account_no}}</td>
+                    <td>{{account.name}}</td>
+                    <td>{{account.ifsc}}</td>
+                    <td><a href="/bank/update?id={{account.id}}" class="btn btn-secondary">Update</a> </td>
+                    <td><a href="/bank/delete?id={{account.id}}" class="btn btn-danger">Delete</a></td>
+                </tr>
+
+                {% endfor %}
+
+
+            </tbody>
+        </table>
+    </div>
+
+</main>
+{% endblock main %}
